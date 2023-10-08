@@ -11,6 +11,7 @@ public class SchoolDbContext : DbContext
 
     public DbSet<Fund> Funds { get; set; }
     public DbSet<Fundraising> Fundraising { get; set; }
+    public DbSet<FundraisingMember> FundraisingMembers { get; set; }
     public DbSet<Income> Incomes { get; set; }
     public DbSet<Payment> Payments { get; set; }
     public DbSet<Expense> Expenses { get; set; }
