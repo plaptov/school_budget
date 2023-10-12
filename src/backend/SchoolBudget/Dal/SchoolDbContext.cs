@@ -16,4 +16,21 @@ public class SchoolDbContext : DbContext
     public DbSet<Payment> Payments { get; set; }
     public DbSet<Expense> Expenses { get; set; }
     public DbSet<ExpenseItem> ExpenseItems { get; set; }
+
+    public async Task<T> InTransaction<T>(Func<Task<T>> func)
+    {
+        using var transaction = await Database.BeginTransactionAsync();
+        var result = await func();
+        await SaveChangesAsync();
+        await transaction.CommitAsync();
+        return result;
+    }
+
+    public async Task InTransaction(Func<Task> func)
+    {
+        using var transaction = await Database.BeginTransactionAsync();
+        await func();
+        await SaveChangesAsync();
+        await transaction.CommitAsync();
+    }
 }
