@@ -6,9 +6,12 @@ namespace SchoolBudget.Dal;
 
 public class SchoolDbContext : DbContext
 {
+    public SchoolDbContext(DbContextOptions options) : base(options)
+    {
+    }
+
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
-        base.ConfigureConventions(configurationBuilder);
         configurationBuilder.Conventions.Add(_ => new IdConverterConvention());
     }
 
