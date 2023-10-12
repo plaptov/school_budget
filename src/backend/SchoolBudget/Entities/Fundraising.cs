@@ -6,9 +6,8 @@ public enum FundraisingType
     Periodic = 1,
 }
 
-public class Fundraising
+public class Fundraising : BaseEntity<Fundraising>
 {
-    public long Id { get; set; }
     public DateOnly Date { get; set; }
     public string Name { get; set; } = null!;
     public string? Description { get; set; }

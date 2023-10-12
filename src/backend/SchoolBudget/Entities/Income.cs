@@ -1,9 +1,7 @@
 namespace SchoolBudget.Entities;
 
-public class Income
+public class Income : BaseEntity<Income>
 {
-    public long Id { get; set; }
-
     public Fund Fund { get; set; } = null!;
 
     public Payment? Payment { get; set; }

@@ -1,8 +1,7 @@
 namespace SchoolBudget.Entities;
 
-public class ExpenseItem
+public class ExpenseItem : BaseEntity<ExpenseItem>
 {
-    public long Id { get; set; }
     public decimal? Cost { get; set; }
     public int? Quantity { get; set; }
     public decimal Sum { get; set; }

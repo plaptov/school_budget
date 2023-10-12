@@ -1,10 +1,22 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SchoolBudget.Entities;
 
 namespace SchoolBudget.Dal;
 
 public class SchoolDbContext : DbContext
 {
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        base.ConfigureConventions(configurationBuilder);
+        configurationBuilder.Conventions.Add(_ => new IdConverterConvention());
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+    }
+
     public DbSet<Student> Students { get; set; }
     public DbSet<Adult> Adults { get; set; }
     public DbSet<AdultLink> AdultLinks { get; set; }

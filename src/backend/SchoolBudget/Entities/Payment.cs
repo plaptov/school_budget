@@ -1,9 +1,7 @@
 namespace SchoolBudget.Entities;
 
-public class Payment
+public class Payment : BaseEntity<Payment>
 {
-    public long Id { get; set; }
-
     public Student Student { get; set; } = null!;
 
     public Adult Adult { get; set; } = null!;

@@ -7,9 +7,8 @@ public enum FundType
     Continuous = 2,
 }
 
-public class Fund
+public class Fund : BaseEntity<Fund>
 {
-    public long Id { get; set; }
     public string Name { get; set; } = null!;
     public FundType Type { get; init; }
     public bool IsClosed { get; private set; }
