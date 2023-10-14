@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SchoolBudget.Entities;
 
 namespace SchoolBudget.Dal;
@@ -18,6 +17,11 @@ public class SchoolDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<AdultLink>()
+            .HasKey(l => new { l.StudentId, l.AdultId });
+        modelBuilder.Entity<FundraisingMember>()
+            .HasKey(fm => new { fm.FundraisingId, fm.StudentId });
     }
 
     public DbSet<Student> Students { get; set; }
