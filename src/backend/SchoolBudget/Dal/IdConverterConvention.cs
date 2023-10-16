@@ -1,11 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SchoolBudget.Entities;
 
 namespace SchoolBudget;
 
-public class IdConverterConvention : IEntityTypeAddedConvention, IEntityTypeBaseTypeChangedConvention
+public class IdConverterConvention : IEntityTypeAddedConvention, IEntityTypeBaseTypeChangedConvention, IKeyAddedConvention
 {
     private static bool IsIdType(Type type) => type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Id<>);
 
@@ -33,5 +35,12 @@ public class IdConverterConvention : IEntityTypeAddedConvention, IEntityTypeBase
             if (IsIdType(value.PropertyType))
                 entityTypeBuilder.Property(value)?.HasConverter(MakeConverterType(value.PropertyType));
         }
+    }
+
+    public void ProcessKeyAdded(IConventionKeyBuilder keyBuilder, IConventionContext<IConventionKeyBuilder> context)
+    {
+        var meta = keyBuilder.Metadata;
+        if (meta.IsPrimaryKey() && meta.Properties.Count == 1)
+            meta.Properties[0].SetValueGenerationStrategy(NpgsqlValueGenerationStrategy.SerialColumn);
     }
 }
