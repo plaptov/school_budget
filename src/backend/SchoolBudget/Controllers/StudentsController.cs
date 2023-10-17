@@ -18,4 +18,8 @@ public class StudentsController : ControllerBase
     [HttpGet("all")]
     public async Task<IReadOnlyCollection<Student>> GetStudents() =>
         await _context.Students.ToListAsync();
+
+    [HttpGet("{studentId}")]
+    public Task<Student?> GetStudent([FromRoute] Id<Student> studentId) =>
+        _context.Students.AsNoTracking().SingleOrDefaultAsync(s => s.Id == studentId);
 }

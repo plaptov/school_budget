@@ -1,11 +1,16 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using SchoolBudget.Infrastructure;
 
 namespace SchoolBudget.Entities;
 
 [JsonConverter(typeof(JsonIdConverterFactory))]
+[ModelBinder(BinderType = typeof(IdModelBinder))]
+[DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
 public readonly struct Id<T> : IEquatable<Id<T>>, IComparable<Id<T>>
 {
     private readonly long _value;
@@ -59,6 +64,8 @@ public readonly struct Id<T> : IEquatable<Id<T>>, IComparable<Id<T>>
 
         public override void Write(Utf8JsonWriter writer, Id<T> value, JsonSerializerOptions options) => writer.WriteNumberValue(value._value);
     }
+
+    private string GetDebuggerDisplay() => $"{typeof(T).Name} Id = {_value}";
 }
 
 public class JsonIdConverterFactory : JsonConverterFactory
