@@ -1,6 +1,6 @@
 namespace SchoolBudget.Entities;
 
-public class FundraisingMember
+public sealed class FundraisingMember
 {
     public Id<Fundraising> FundraisingId { get; set; }
     public Fundraising Fundraising { get; set; } = null!;

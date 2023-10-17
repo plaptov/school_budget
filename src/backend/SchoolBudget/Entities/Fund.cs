@@ -7,7 +7,7 @@ public enum FundType
     Continuous = 2,
 }
 
-public class Fund : BaseEntity<Fund>
+public sealed class Fund : BaseEntity<Fund>
 {
     public string Name { get; set; } = null!;
     public FundType Type { get; init; }

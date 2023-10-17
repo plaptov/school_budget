@@ -1,6 +1,6 @@
 namespace SchoolBudget.Entities;
 
-public class Income : BaseEntity<Income>
+public sealed class Income : BaseEntity<Income>
 {
     public Fund Fund { get; set; } = null!;
 

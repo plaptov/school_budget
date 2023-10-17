@@ -6,7 +6,7 @@ public enum FundraisingType
     Periodic = 1,
 }
 
-public class Fundraising : BaseEntity<Fundraising>
+public sealed class Fundraising : BaseEntity<Fundraising>
 {
     public DateOnly Date { get; set; }
     public string Name { get; set; } = null!;

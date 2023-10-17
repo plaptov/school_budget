@@ -1,5 +1,6 @@
 namespace SchoolBudget.Entities;
-public class AdultLink
+
+public sealed class AdultLink
 {
     public Id<Adult> AdultId { get; set; }
     public Adult Adult { get; set; } = null!;

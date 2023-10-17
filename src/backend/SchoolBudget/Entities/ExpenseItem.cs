@@ -1,6 +1,6 @@
 namespace SchoolBudget.Entities;
 
-public class ExpenseItem : BaseEntity<ExpenseItem>
+public sealed class ExpenseItem : BaseEntity<ExpenseItem>
 {
     public decimal? Cost { get; set; }
     public int? Quantity { get; set; }

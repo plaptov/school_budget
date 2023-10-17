@@ -1,6 +1,6 @@
 namespace SchoolBudget.Entities;
 
-public class Payment : BaseEntity<Payment>
+public sealed class Payment : BaseEntity<Payment>
 {
     public Student Student { get; set; } = null!;
 
