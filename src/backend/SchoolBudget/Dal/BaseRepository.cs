@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using SchoolBudget.Entities;
+using SchoolBudget.Interfaces;
 
 namespace SchoolBudget.Dal;
 
-public abstract class BaseRepository<T> where T : BaseEntity<T>
+public class BaseRepository<T>: IRepository<T> where T : BaseEntity<T>
 {
     private readonly SchoolDbContext _context;
 
@@ -18,14 +19,14 @@ public abstract class BaseRepository<T> where T : BaseEntity<T>
 
     public IQueryable<T> Query() => Set.AsQueryable();
 
-    public async ValueTask<T?> Add(T entity)
+    public async ValueTask<T> Add(T entity)
     {
         Set.Add(entity);
         await _context.SaveChangesAsync();
         return entity;
     }
 
-    public async ValueTask<T?> Update(T entity)
+    public async ValueTask<T> Update(T entity)
     {
         var original = await Get(entity.Id)
             ?? throw new InvalidOperationException($"{typeof(T).Name} with id {entity.Id} not found");
@@ -43,5 +44,4 @@ public abstract class BaseRepository<T> where T : BaseEntity<T>
         Set.Remove(original);
         await _context.SaveChangesAsync();
     }
-
 }
