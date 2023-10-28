@@ -14,10 +14,12 @@
 <script lang="ts" setup>
 import { onBeforeMount, ref } from "vue";
 import { Student } from "../models/student";
+import { CrudService } from "@/services/crud-service";
 
 const students = ref<Student[]>([]);
+const studentsService = new CrudService<Student>("student");
 
 onBeforeMount(async () => {
-  students.value = await fetch("api/student/all").then((res) => res.json());
+  students.value = await studentsService.getAll();
 });
 </script>
