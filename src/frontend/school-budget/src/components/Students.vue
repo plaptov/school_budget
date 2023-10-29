@@ -1,12 +1,23 @@
 <template>
   <Suspense>
-    <v-container>
-      <v-responsive>
-        <li v-for="student in students" :key="student.id">
-            {{ student.id }} {{ student.name }} {{ student.comment }}
-        </li>
-      </v-responsive>
-    </v-container>
+    <v-responsive>
+      <v-table>
+        <thead>
+          <tr>
+            <th class="text-left">ID</th>
+            <th class="text-left">ФИО</th>
+            <th class="text-left">Комментарий</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="student in students" :key="student.id">
+            <td>{{ student.id }}</td>
+            <td>{{ student.name }}</td>
+            <td>{{ student.comment }}</td>
+          </tr>
+        </tbody>
+      </v-table>
+    </v-responsive>
     <template #fallback> Загрузка... </template>
   </Suspense>
 </template>

@@ -8,7 +8,7 @@ const routes = [
     children: [
       {
         path: 'students',
-        name: 'Students',
+        name: 'students',
         component: () => import('@/components/Students.vue'),
       },
     ],
