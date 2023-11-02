@@ -6,6 +6,7 @@
     <v-navigation-drawer rail expand-on-hover>
       <v-list>
         <v-list-item title="Ученики" to="students" prepend-icon="mdi-account-school" />
+        <v-list-item title="Взрослые" to="adults" prepend-icon="mdi-account-tie-woman" />
       </v-list>
     </v-navigation-drawer>
     <v-main>

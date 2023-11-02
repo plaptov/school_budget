@@ -1,6 +1,7 @@
 import { BaseEntity } from "./base-entity";
 
-export interface Student extends BaseEntity {
+export interface Adult extends BaseEntity {
   name: string;
+  phone?: string;
   comment?: string;
 }
