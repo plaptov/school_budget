@@ -4,6 +4,7 @@ using Microsoft.OpenApi.Models;
 using SchoolBudget.Dal;
 using SchoolBudget.Entities;
 using SchoolBudget.Interfaces;
+using SchoolBudget.Services;
 [assembly: ApiController]
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,7 @@ builder.Services.AddDbContext<SchoolDbContext>(options => options.UseNpgsql(
     builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
+builder.Services.AddScoped<IStudentService, StudentsService>();
 
 var app = builder.Build();
 

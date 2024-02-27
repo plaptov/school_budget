@@ -46,6 +46,9 @@ public readonly struct Id<T> : IEquatable<Id<T>>, IComparable<Id<T>>
     public static bool operator <=(Id<T> left, Id<T> right) => left._value <= right._value;
     public static bool operator >=(Id<T> left, Id<T> right) => left._value >= right._value;
 
+    public static Id<T> From<T2>(Id<T2> id) where T2 : IIdentified<T> => new(id._value);
+    public Id<T2> To<T2>() where T2 : IIdentified<T> => new(_value);
+
     public class EfCoreConverter : ValueConverter<Id<T>, long>
     {
         public EfCoreConverter()

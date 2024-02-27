@@ -5,7 +5,7 @@ using SchoolBudget.Interfaces;
 
 namespace SchoolBudget.Controllers;
 
-public class BaseApiController<T> : ControllerBase where T : BaseEntity<T>
+public class BaseApiController<T> : ControllerBase where T : class, IIdentified<T>
 {
     private readonly IRepository<T> _repository;
 
