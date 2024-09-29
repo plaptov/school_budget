@@ -1,11 +1,8 @@
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using SchoolBudget.Dal;
+using SchoolBudget.Application;
 using SchoolBudget.Entities;
-using SchoolBudget.Interfaces;
-using SchoolBudget.Services;
 [assembly: ApiController]
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,11 +19,7 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.MapType(typeof(Id<>), () => new OpenApiSchema { Type = "integer", Format = "int64" });
 });
-builder.Services.AddDbContext<SchoolDbContext>(options => options.UseNpgsql(
-    builder.Configuration.GetConnectionString("DefaultConnection")));
-
-builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
-builder.Services.AddScoped<IStudentService, StudentsService>();
+builder.Services.AddServices(builder.Configuration);
 
 var app = builder.Build();
 
