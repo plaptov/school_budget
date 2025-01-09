@@ -7,8 +7,8 @@ export enum FundraisingType {
 }
 
 export interface Fundraising extends FundraisingEditDto, BaseEntity {
+  id: number;
   fundId: number;
   type: FundraisingType;
   isClosed: boolean;
-  closingDate?: Date;
 }

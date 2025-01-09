@@ -21,8 +21,8 @@ public class StudentsService : IStudentService
 
     public async ValueTask<StudentDto> Add(StudentDto dto)
     {
-        await _repository.Add(ToEntity(dto));
-        return (await Get(dto.Id))!;
+        var result = await _repository.Add(ToEntity(dto));
+        return (await Get(result.Id))!;
     }
 
     public ValueTask Delete(Id<StudentDto> id) => _repository.Delete(Id<Student>.From(id));

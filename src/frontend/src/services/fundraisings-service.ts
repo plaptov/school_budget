@@ -8,22 +8,22 @@ export class FundraisingsService extends CrudService<Fundraising> {
   }
 
   public byFundId(fundId: number): Promise<Fundraising[]> {
-    return this.getRequest('byFundId/' + fundId);
+    return this.get('byFundId/' + fundId);
   }
 
   public byFundType(fundType: FundraisingType): Promise<Fundraising[]> {
-    return this.getRequest('byFundType/' + fundType);
+    return this.get('byFundType/' + fundType);
   }
 
   public createRegular(fundraising: FundraisingEditDto): Promise<Fundraising> {
-    return this.postRequest('regular', fundraising);
+    return this.post('regular', fundraising);
   }
 
   public createPeriodic(fundraising: FundraisingEditDto): Promise<Fundraising> {
-    return this.postRequest('periodic', fundraising);
+    return this.post('periodic', fundraising);
   }
 
   public createTargeted(fundraising: FundraisingEditDto): Promise<Fundraising> {
-    return this.postRequest('targeted', fundraising);
+    return this.post('targeted', fundraising);
   }
 }

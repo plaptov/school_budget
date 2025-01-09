@@ -8,6 +8,7 @@
         <v-list-item title="Ученики" to="students" prepend-icon="mdi-account-school" />
         <v-list-item title="Взрослые" to="adults" prepend-icon="mdi-account-tie-woman" />
         <v-list-item title="Фонды класса" to="funds" prepend-icon="mdi-piggy-bank" />
+        <v-list-item title="Сборы" to="fundraisings" prepend-icon="mdi-hand-coin" />
       </v-list>
     </v-navigation-drawer>
     <v-main>

@@ -3,7 +3,7 @@
     <v-container fluid>
       <v-row>
         <v-col>
-          <v-btn prepend-icon="$plus" @click="addFund()"> Добавить </v-btn>
+          <v-btn prepend-icon="$plus" @click="addModel()"> Добавить </v-btn>
         </v-col>
       </v-row>
 
@@ -16,19 +16,31 @@
             <v-card-text>
               <v-row>
                 <v-col>
+                  <v-date-input v-model="editingValue.date" label="Дата"></v-date-input>
+                </v-col>
+                <v-col>
                   <v-text-field v-model="editingValue.name" label="Название"></v-text-field>
                 </v-col>
                 <v-col>
-                  <v-combobox v-model="editingValue.type" :items="fundTypes" label="Тип"></v-combobox>
+                  <v-text-field v-model="editingValue.description" label="Описание"></v-text-field>
+                </v-col>
+                <v-col>
+                  <v-number-input
+                    v-model="editingValue.recommendedAmount"
+                    label="Рекомендуемая сумма"
+                    suffix="₽"
+                    :min="0"
+                    :step="100"
+                  ></v-number-input>
                 </v-col>
               </v-row>
               <v-row>
                 <v-col>
-                  <div style="display:flex; gap: 10px">
-                    <v-btn color="primary" @click="saveModel()">Сохранить</v-btn>
-                    <v-btn color="primary" @click="service.createRegular(editingValue)">Обычный</v-btn>
-                    <v-btn color="primary" @click="service.createPeriodic(editingValue)">Периодический</v-btn>
-                    <v-btn color="primary" @click="service.createTargeted(editingValue)">Целевой</v-btn>
+                  <div style="display: flex; gap: 10px">
+                    <v-btn v-if="editingValue.id" color="primary" @click="saveModel()">Сохранить</v-btn>
+                    <v-btn v-if="!editingValue.id" color="primary" @click="createRegular()">Обычный</v-btn>
+                    <v-btn v-if="!editingValue.id" color="primary" @click="createPeriodic()">Периодический</v-btn>
+                    <v-btn v-if="!editingValue.id" color="primary" @click="createTargeted()">Целевой</v-btn>
                     <v-btn color="error" @click="editingValue = null">Отменить</v-btn>
                   </div>
                 </v-col>
@@ -43,9 +55,11 @@
           <v-table>
             <thead>
               <tr>
-                <th/>
+                <th />
                 <th class="text-left">ID</th>
+                <th class="text-left">Дата</th>
                 <th class="text-left">Название</th>
+                <th class="text-left">Рек. сумма</th>
                 <th class="text-left">Тип</th>
                 <th class="text-left">Закрыт</th>
               </tr>
@@ -53,11 +67,13 @@
             <tbody>
               <tr v-for="model in fundraisings" :key="model.id">
                 <td>
-                  <v-icon icon="$edit" @click="editingValue = model"/>
-                  <v-icon icon="$delete" @click="deleteModel(model)"/>
+                  <v-icon icon="$edit" @click="editingValue = model" />
+                  <v-icon icon="$delete" @click="deleteModel(model)" />
                 </td>
                 <td>{{ model.id }}</td>
+                <td>{{ model.date }}</td>
                 <td>{{ model.name }}</td>
+                <td>{{ model.recommendedAmount }}</td>
                 <td>{{ model.type }}</td>
                 <td>{{ model.isClosed }}</td>
               </tr>
@@ -73,7 +89,7 @@
 <script lang="ts" setup>
 import { onBeforeMount, ref } from "vue";
 import { Fund } from "@/models/fund";
-import { Fundraising } from "@/models/fundraising";
+import { Fundraising, FundraisingType } from "@/models/fundraising";
 import { CrudService } from "@/services/crud-service";
 import { FundraisingsService } from "@/services/fundraisings-service";
 import { FundraisingEditDto } from "@/models/fundraising-edit-dto";
@@ -89,18 +105,35 @@ onBeforeMount(async () => {
   fundraisings.value = await service.getAll();
 });
 
-function addFund(): void {
+function addModel(): void {
   editingValue.value = {
     name: "",
     description: "",
     date: new Date(),
     recommendedAmount: 1000,
-  }
+    type: FundraisingType.OneTime,
+  };
 }
 
 async function saveModel(): Promise<void> {
   const model = editingValue.value!;
   await service.update(model as Fundraising);
+  editingValue.value = null;
+}
+
+async function createRegular(): Promise<void> {
+  await service.createRegular(editingValue.value!);
+  editingValue.value = null;
+}
+
+async function createPeriodic(): Promise<void> {
+  await service.createPeriodic(editingValue.value!);
+  editingValue.value = null;
+}
+
+async function createTargeted(): Promise<void> {
+  await service.createTargeted(editingValue.value!);
+  editingValue.value = null;
 }
 
 async function deleteModel(model: Fundraising): Promise<void> {
