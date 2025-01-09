@@ -1,6 +1,7 @@
 {
   "name": "school_budget",
   "version": "0.0.0",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
@@ -19,12 +20,12 @@
     "@babel/types": "^7",
     "@types/node": "^22",
     "@vitejs/plugin-vue": "^5",
-    "@vue/eslint-config-typescript": "^13",
-    "eslint": "^8",
+    "@vue/eslint-config-typescript": "^14",
+    "eslint": "^9",
     "eslint-plugin-vue": "^9",
     "typescript": "^5",
     "unplugin-fonts": "^1",
-    "vite": "^5",
+    "vite": "^6",
     "vite-plugin-vuetify": "^2",
     "vue-tsc": "^2"
   }

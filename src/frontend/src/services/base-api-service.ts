@@ -1,5 +1,5 @@
 const jsonHeaders = new Headers({ "Content-Type": "application/json" });
-type paramsType = string[][] | Record<string, string> | string | URLSearchParams;
+export type paramsType = string[][] | Record<string, string> | string | URLSearchParams;
 
 export class BaseApiService {
   protected getRequest<T>(url: string, queryParams?: paramsType): Promise<T> {

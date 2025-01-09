@@ -4,14 +4,9 @@ using SchoolBudget.Interfaces;
 
 namespace SchoolBudget.Dal;
 
-public class BaseRepository<T>: IRepository<T> where T : BaseEntity<T>
+public class BaseRepository<T>(SchoolDbContext context) : IRepository<T> where T : BaseEntity<T>
 {
-    private readonly SchoolDbContext _context;
-
-    public BaseRepository(SchoolDbContext context)
-    {
-        _context = context;
-    }
+    protected readonly SchoolDbContext _context = context;
 
     protected DbSet<T> Set => _context.Set<T>();
 
