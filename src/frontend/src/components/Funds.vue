@@ -45,18 +45,22 @@
                 <th class="text-left">Название</th>
                 <th class="text-left">Тип</th>
                 <th class="text-left">Закрыт</th>
+                <th class="text-left">Сборы в фонд</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="adult in funds" :key="adult.id">
+              <tr v-for="fund in funds" :key="fund.id">
                 <td>
-                  <v-icon icon="$edit" @click="editingValue = adult"/>
-                  <v-icon icon="$delete" @click="deleteModel(adult)"/>
+                  <v-icon icon="$edit" @click="editingValue = fund"/>
+                  <v-icon icon="$delete" @click="deleteModel(fund)"/>
                 </td>
-                <td>{{ adult.id }}</td>
-                <td>{{ adult.name }}</td>
-                <td>{{ adult.type }}</td>
-                <td>{{ adult.isClosed }}</td>
+                <td>{{ fund.id }}</td>
+                <td>{{ fund.name }}</td>
+                <td>{{ fund.type }}</td>
+                <td>{{ fund.isClosed }}</td>
+                <td>
+                  <v-icon icon="mdi-hand-coin" @click="openFund(fund)"/>
+                </td>
               </tr>
             </tbody>
           </v-table>
@@ -69,8 +73,11 @@
 
 <script lang="ts" setup>
 import { onBeforeMount, ref } from "vue";
+import { useRouter } from "vue-router";
 import { CrudService } from "@/services/crud-service";
 import { Fund, FundType } from "@/models/fund";
+
+const router = useRouter();
 
 const fundTypes = [
   FundType.Default,
@@ -109,5 +116,9 @@ async function saveModel(): Promise<void> {
 async function deleteModel(model: Fund): Promise<void> {
   await service.delete(model.id);
   funds.value = funds.value.filter((s) => s.id !== model.id);
+}
+
+function openFund(fund: Fund): void {
+  router.push(`/fund/${fund.id}/fundraisings`);
 }
 </script>

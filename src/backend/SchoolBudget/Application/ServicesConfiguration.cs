@@ -12,6 +12,7 @@ public static class ServicesConfiguration
             options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")))
         .AddScoped(typeof(IRepository<>), typeof(BaseRepository<>))
         .AddScoped<IFundsRepository, FundsRepository>()
+        .AddScoped<IFundraisingsRepository, FundraisingsRepository>()
         .AddScoped<IStudentService, StudentsService>()
         .AddScoped<IFundraisingsService, FundraisingsService>()
         ;

@@ -8,7 +8,7 @@ export class FundraisingsService extends CrudService<Fundraising> {
   }
 
   public byFundId(fundId: number): Promise<Fundraising[]> {
-    return this.get('byFundId/' + fundId);
+    return this.get('byFund/' + fundId);
   }
 
   public byFundType(fundType: FundraisingType): Promise<Fundraising[]> {
@@ -25,5 +25,9 @@ export class FundraisingsService extends CrudService<Fundraising> {
 
   public createTargeted(fundraising: FundraisingEditDto): Promise<Fundraising> {
     return this.post('targeted', fundraising);
+  }
+
+  public copyLastPeriodicalFundraising(fundId: number): Promise<Fundraising> {
+    return this.put('copyLastPeriodicalFundraising', null, [['fundId', fundId.toString()]]);
   }
 }

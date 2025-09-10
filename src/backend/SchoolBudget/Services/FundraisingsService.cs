@@ -7,7 +7,7 @@ using SchoolBudget.Interfaces;
 namespace SchoolBudget.Services;
 
 public class FundraisingsService(
-    IRepository<Fundraising> _fundraisingRepository,
+    IFundraisingsRepository _fundraisingRepository,
     IFundsRepository _fundRepository,
     SchoolDbContext _dbContext)
     : IFundraisingsService
@@ -15,18 +15,7 @@ public class FundraisingsService(
     public async Task<Fundraising> CreateRegular(FundraisingEditDto dto)
     {
         var fund = await _fundRepository.GetDefaultFund();
-        return await InternalCreate(fund, FundraisingType.OneTime, dto);
-    }
-
-    public async Task<Fundraising> CreatePeriodic(FundraisingEditDto dto)
-    {
-        var fund = new Fund()
-        {
-            Type = FundType.Continuous,
-            Name = dto.Name,
-        };
-        await _fundRepository.Add(fund);
-        return await InternalCreate(fund, FundraisingType.Periodic, dto);
+        return await InternalCreate(fund, dto);
     }
 
     public async Task<Fundraising> CreateTargeted(FundraisingEditDto dto)
@@ -37,15 +26,47 @@ public class FundraisingsService(
             Name = dto.Name,
         };
         await _fundRepository.Add(fund);
-        return await InternalCreate(fund, FundraisingType.OneTime, dto);
+        return await InternalCreate(fund, dto);
     }
 
-    private async Task<Fundraising> InternalCreate(Fund fund, FundraisingType type, FundraisingEditDto dto)
+    public async Task<Fundraising> CreatePeriodical(FundraisingEditDto dto)
+    {
+        var fund = new Fund()
+        {
+            Type = FundType.Periodical,
+            Name = dto.Name,
+        };
+        await _fundRepository.Add(fund);
+        return await InternalCreate(fund, dto);
+    }
+
+    public async Task<Fundraising> CopyLastPeriodicalFundraising(Id<Fund> fundId)
+    {
+        var fund = await _fundRepository.Get(fundId);
+        if (fund is null || fund.Type != FundType.Periodical)
+            throw new InvalidOperationException();
+
+        var last = await _fundraisingRepository.GetLastFundraising(fundId);
+        var students = await _fundraisingRepository.GetMembers(last.Id);
+        var newFundraising = new Fundraising()
+        {
+            FundId = fundId,
+            Name = last.Name,
+            Date = last.Date.AddMonths(1),
+            Description = last.Description,
+            RecommendedAmount = last.RecommendedAmount,
+        };
+        newFundraising.Members = [.. students.Select(s => new FundraisingMember() { Fundraising = newFundraising, StudentId = s })];
+        await _fundraisingRepository.Add(newFundraising);
+
+        return (await _fundraisingRepository.Get(newFundraising.Id))!;
+    }
+
+    private async Task<Fundraising> InternalCreate(Fund fund, FundraisingEditDto dto)
     {
         var fundraising = new Fundraising
         {
             Fund = fund,
-            Type = type,
         };
         fundraising.Assign(dto);
         await _fundraisingRepository.Add(fundraising);

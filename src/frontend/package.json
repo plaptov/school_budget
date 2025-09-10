@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@mdi/font": "^7",
-    "pinia": "^2",
+    "pinia": "^3",
     "roboto-fontface": "*",
     "vue": "^3",
     "vue-router": "^4",
@@ -22,7 +22,7 @@
     "@vitejs/plugin-vue": "^5",
     "@vue/eslint-config-typescript": "^14",
     "eslint": "^9",
-    "eslint-plugin-vue": "^9",
+    "eslint-plugin-vue": "^10",
     "typescript": "^5",
     "unplugin-fonts": "^1",
     "vite": "^6",

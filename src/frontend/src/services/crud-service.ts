@@ -36,7 +36,11 @@ export class CrudService<T> extends BaseApiService {
     return this.getRequest(this.makeUrl(url), queryParams);
   }
 
-  protected post<TT>(url: string, body: unknown): Promise<TT> {
-    return this.postRequest(this.makeUrl(url), body);
+  protected post<TT>(url: string, body: unknown, queryParams?: paramsType): Promise<TT> {
+    return this.postRequest(this.makeUrl(url), body, queryParams);
+  }
+
+  protected put<TT>(url: string, body: unknown, queryParams?: paramsType): Promise<TT> {
+    return this.putRequest(this.makeUrl(url), body, queryParams);
   }
 }

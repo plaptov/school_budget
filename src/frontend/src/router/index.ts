@@ -7,24 +7,29 @@ const routes = [
     component: () => import('@/layouts/default/Default.vue'),
     children: [
       {
-        path: 'students',
+        path: '/students',
         name: 'students',
         component: () => import('@/components/Students.vue'),
       },
       {
-        path: 'adults',
+        path: '/adults',
         name: 'adults',
         component: () => import('@/components/Adults.vue'),
       },
       {
-        path: 'funds',
+        path: '/funds',
         name: 'funds',
         component: () => import('@/components/Funds.vue'),
       },
       {
-        path: 'fundraisings',
-        name: 'fundraisings',
-        component: () => import('@/components/Fundraisings.vue'),
+        path: '/fund/:fundId',
+        children:[
+          {
+            path: 'fundraisings',
+            name: 'fundraisings',
+            component: () => import('@/components/Fundraisings.vue'),
+          },
+        ]
       },
     ],
   },

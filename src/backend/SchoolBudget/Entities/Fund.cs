@@ -4,7 +4,7 @@ public enum FundType
 {
     Default = 0,
     Targeted = 1,
-    Continuous = 2,
+    Periodical = 2,
 }
 
 public sealed class Fund : BaseEntity<Fund>

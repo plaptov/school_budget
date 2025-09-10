@@ -10,15 +10,27 @@ export class BaseApiService {
     return this.fetch(url);
   }
 
-  protected postRequest<T>(url: string, body: any): Promise<T> {
+  protected postRequest<T>(url: string, body: any, queryParams?: paramsType): Promise<T> {
+    if (queryParams) {
+      url += `?${new URLSearchParams(queryParams)}`;
+    }
+
     return this.fetch(url, { method: 'POST', headers: jsonHeaders, body: JSON.stringify(body) });
   }
 
-  protected putRequest<T>(url: string, body: any): Promise<T> {
+  protected putRequest<T>(url: string, body: any, queryParams?: paramsType): Promise<T> {
+    if (queryParams) {
+      url += `?${new URLSearchParams(queryParams)}`;
+    }
+
     return this.fetch(url, { method: 'PUT', headers: jsonHeaders, body: JSON.stringify(body) });
   }
 
-  protected deleteRequest(url: string): Promise<void> {
+  protected deleteRequest(url: string, queryParams?: paramsType): Promise<void> {
+    if (queryParams) {
+      url += `?${new URLSearchParams(queryParams)}`;
+    }
+
     return this.fetchVoid(url, { method: 'DELETE' });
   }
 

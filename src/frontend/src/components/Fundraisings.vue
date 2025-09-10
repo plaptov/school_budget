@@ -88,25 +88,33 @@
 
 <script lang="ts" setup>
 import { onBeforeMount, ref } from "vue";
-import { Fund } from "@/models/fund";
 import { Fundraising, FundraisingType } from "@/models/fundraising";
-import { CrudService } from "@/services/crud-service";
 import { FundraisingsService } from "@/services/fundraisings-service";
 import { FundraisingEditDto } from "@/models/fundraising-edit-dto";
+import { onBeforeRouteUpdate, useRoute } from "vue-router";
 
+const route = useRoute();
+const fundId = ref<number>(0);
 const fundraisings = ref<Fundraising[]>([]);
-const funds = ref<Fund[]>([]);
 const service = new FundraisingsService();
-const fundsService = new CrudService<Fund>("fund");
 const editingValue = ref<FundraisingEditDto | null>(null);
 
 onBeforeMount(async () => {
-  funds.value = await fundsService.getAll();
-  fundraisings.value = await service.getAll();
+  await reloadData(route.params['fundId']?.toString());
 });
+
+onBeforeRouteUpdate(async (to) => {
+  await reloadData(to.params['fundId']?.toString());
+})
+
+async function reloadData(fId: string): Promise<void> {
+  fundId.value = parseInt(fId);
+  fundraisings.value = await service.byFundId(fundId.value);
+}
 
 function addModel(): void {
   editingValue.value = {
+    fundId: fundId.value,
     name: "",
     description: "",
     date: new Date(),
